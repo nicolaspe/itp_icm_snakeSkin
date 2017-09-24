@@ -2,32 +2,35 @@ var t = 0;	 // time keeper
 var fR = 60; // frame Rate
 
 // square variables
-var squares, sqRadius;
+var squares, sqRadius, sqBorder;
+// environment variables
+var angle, shrinkRate, rotRate;
 // auxiliary squares
 var sq1, sq2, sq3, sq4;
-// environment variables
-var angle;
 
 function setup(){
 	createCanvas(640, 480);
 	frameRate(fR);
 
-	rectMode(CENTER);
-	noFill();
-	strokeWeight(2);
-	stroke(255, 255, 255, 80);
-
 	// variable initialization
 	squares = []; // [x, y, rotation, radius]
-	sqRadius = 100;
+	sqRadius = 200;
+	sqBorder = 8;
 
-  sq1 = [100, 100, 0.2, sqRadius-30];
-  sq2 = [200, 100, 0.3, sqRadius-20];
-  sq3 = [300, 100, 0.4, sqRadius-10];
-  sq4 = [400, 100, 0.5, sqRadius];
-	angle = radians(5/fR);
+	shrinkRate = 1.2;
+	rotRate = 10;
+	angle = radians(10/fR);
 
-  squares = [sq1, sq2, sq3, sq4];
+	rectMode(CENTER);
+	noFill();
+	stroke(255, 255, 255, 80);
+	strokeWeight(8);
+
+  // sq1 = [100, 100, 0.2, sqRadius-30];
+  // sq2 = [200, 100, 0.3, sqRadius-20];
+  // sq3 = [300, 100, 0.4, sqRadius-10];
+  // sq4 = [400, 100, 0.5, sqRadius];
+  // squares = [sq1, sq2, sq3, sq4];
 }
 
 function draw(){
@@ -53,7 +56,7 @@ function drawSquares(){
 // This function shrinks the squares and removes them from the array
 function shrinkSquares(){
 	for (var i = 0; i < squares.length; i++) {
-		squares[i][3] -= 0.1;
+		squares[i][3] -= shrinkRate;
 		if(squares[i][3] <= 0){
 			squares.splice(i, 1);
 		}
@@ -74,5 +77,6 @@ function createSquare(xpos, ypos, rotation, rad) {
 }
 
 function mouseDragged(){
-	createSquare(mouseX, mouseY, 0, sqRadius);
+	var theta = radians(t);
+	createSquare(mouseX, mouseY, theta, sqRadius);
 }
