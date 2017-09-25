@@ -4,16 +4,11 @@ var directions; //text directions variables
 
 var squares, sqRadius; // square variables
 var sq1, sq2, sq3, sq4;// auxiliary squares
-var angle;// environment variables
+var angle, decay;// environment variables
 
 var spin_sliderX, spin_sliderY, spin_sliderW, spin_sliderH, spin_sliderStart, spin_sliderEnd, shrink_sliderX, shrink_sliderY, shrink_sliderW, shrink_sliderH, shrink_sliderStart, shrink_sliderEnd;// slider variables
 var spin_sliderValue, shrink_sliderValue;       //variables for mapped value from sliders
 
-//NEW INITS
-
-var decay; // environment variables
-
-//NEW INITS END
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
@@ -29,16 +24,13 @@ function setup(){
     sqRadius = 100;
     decay = 0.1;
     
-// NEW SETUPS
     shrink_sliderX = windowWidth/30;
     shrink_sliderY = windowHeight/15;
     shrink_sliderW = windowWidth/80;
     shrink_sliderH =windowHeight/25;
     shrink_sliderStart = windowHeight/12;
     shrink_sliderEnd = windowHeight/3;
-    shrink_sliderValue = 0.1;
-    
-    //END NEW SETUP
+    shrink_sliderValue = 0.1;   
     
     spin_sliderX = windowWidth/20;
     spin_sliderY = windowHeight/20;
@@ -53,7 +45,7 @@ function setup(){
     sq3 = [300, 100, 0.4, sqRadius-10];
     sq4 = [400, 100, 0.5, sqRadius];
     angle = radians(spin_sliderValue/fR);
-    instructions ="INSTRUCTIONS: click and drag the mouse to draw squares. Use the Up, Down, Left, and Right arrows to change the squares";
+    instructions ="INSTRUCTIONS: click and drag the mouse to draw squares. Use the Up, Down, Left, and Right arrow keys to change the squares";
 
   squares = [sq1, sq2, sq3, sq4];
 }
@@ -77,6 +69,7 @@ function showInstructions () {
     text(instructions,windowWidth-windowWidth/8,windowHeight/10,windowWidth/8, 100);
     pop();
 }
+
 //This function is the slider that controls the degree of spinning with the left and right arrows
 function spinSlider() {
 	push();
@@ -99,7 +92,8 @@ function spinSlider() {
     pop();
     angle = radians(spin_sliderValue/fR);
 }
-//This function i sthe slider that controls the rate of shape decay with the up and down arrows
+
+//This function is the slider that controls the rate of shape decay with the up and down arrows
 function shrinkSlider() {
 	push();
     rectMode(CORNER);
@@ -122,6 +116,7 @@ function shrinkSlider() {
     pop();
     decay = shrink_sliderValue;
 }
+
 // This function draws every square contained in the "squares" array
 function drawSquares(){
 	for (var i = 0; i < squares.length; i++) {
