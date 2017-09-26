@@ -11,9 +11,10 @@ var sq1, sq2, sq3, sq4;
 function setup(){
 	createCanvas(640, 480);
 	frameRate(fR);
+	colorMode(HSB, 360, 100, 100, 100);
 
 	// variable initialization
-	squares = []; // [x, y, rotation, radius]
+	squares = []; // [x, y, rotation, radius, hue]
 	sqRadius = 200;
 	sqBorder = 8;
 
@@ -23,8 +24,8 @@ function setup(){
 
 	rectMode(CENTER);
 	noFill();
-	stroke(255, 255, 255, 80);
-	strokeWeight(8);
+	// stroke(255, 255, 255, 80);
+	strokeWeight(sqBorder);
 
   // sq1 = [100, 100, 0.2, sqRadius-30];
   // sq2 = [200, 100, 0.3, sqRadius-20];
@@ -46,11 +47,13 @@ function draw(){
 // This function draws every square contained in the "squares" array
 function drawSquares(){
 	for (var i = 0; i < squares.length; i++) {
-			push();
-			translate(squares[i][0], squares[i][1]);
-			rotate(squares[i][2]);
-			rect(0, 0, squares[i][3], squares[i][3]);
-			pop();
+		var col = color(squares[i][4], 100, 100, 60);
+		stroke(col);
+		push();
+		translate(squares[i][0], squares[i][1]);
+		rotate(squares[i][2]);
+		rect(0, 0, squares[i][3], squares[i][3]);
+		pop();
 	}
 }
 // This function shrinks the squares and removes them from the array
@@ -69,14 +72,15 @@ function spinSquares(){
 	}
 }
 // This function creates a square and adds it to the array
-function createSquare(xpos, ypos, rotation, rad) {
+function createSquare(xpos, ypos, rotation, rad, hue) {
 	// Create a new square
-	var newSquare = [xpos, ypos, rotation, rad];
+	var newSquare = [xpos, ypos, rotation, rad, hue];
 	// Add it to the array
 	squares.push(newSquare);
 }
 
 function mouseDragged(){
 	var theta = radians(t);
-	createSquare(mouseX, mouseY, theta, sqRadius);
+	var h = t%360;
+	createSquare(mouseX, mouseY, theta, sqRadius, h);
 }
