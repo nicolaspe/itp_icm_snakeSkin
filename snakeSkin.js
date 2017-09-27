@@ -9,13 +9,14 @@ var angle, decay; // environment variables
 // slider variables
 var spin_sliderX, spin_sliderY, spin_sliderW, spin_sliderH, spin_sliderStart, spin_sliderEnd;
 var shrink_sliderX, shrink_sliderY, shrink_sliderW, shrink_sliderH, shrink_sliderStart, shrink_sliderEnd;
-var spin_sliderValue, shrink_sliderValue; //variables for mapped value from sliders
+//variables for mapped value from sliders
+var spin_sliderValue, shrink_sliderValue;
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
     frameRate(fR);
   	colorMode(HSB, 360, 100, 100, 100);
-  
+
     // variable initialization
 	  squares = []; // [x, y, rotation, radius, hue]
 	  sqRadius = 200;
@@ -26,15 +27,15 @@ function setup(){
     noFill();
     strokeWeight(sqBorder);
     // stroke(255, 255, 255, 80);
-    
+
     shrink_sliderX = windowWidth/30;
     shrink_sliderY = windowHeight/15;
     shrink_sliderW = windowWidth/80;
     shrink_sliderH =windowHeight/25;
     shrink_sliderStart = windowHeight/12;
     shrink_sliderEnd = windowHeight/3;
-    shrink_sliderValue = 0.1;   
-    
+    shrink_sliderValue = 0.1;
+
     spin_sliderX = windowWidth/20;
     spin_sliderY = windowHeight/20;
     spin_sliderW = windowWidth/40;
@@ -45,13 +46,6 @@ function setup(){
 
     angle = radians(spin_sliderValue/fR);
     instructions = "INSTRUCTIONS: click and drag the mouse to draw squares. Use the Up, Down, Left, and Right arrow keys to change the squares";
-
-
-  // sq1 = [100, 100, 0.2, sqRadius-30];
-  // sq2 = [200, 100, 0.3, sqRadius-20];
-  // sq3 = [300, 100, 0.4, sqRadius-10];
-  // sq4 = [400, 100, 0.5, sqRadius];
-  // squares = [sq1, sq2, sq3, sq4];
 }
 
 function draw(){
@@ -77,7 +71,7 @@ function showInstructions () {
 //This function is the slider that controls the degree of spinning with the left and right arrows
 function spinSlider() {
 	push();
-    rectMode(CORNER);
+  rectMode(CORNER);
 	stroke(255);
 	fill(175);
   // Keep rectangle within limits of slider
@@ -87,20 +81,20 @@ function spinSlider() {
   // Draw rectangle for slider
   rect(spin_sliderX, spin_sliderY, spin_sliderW, spin_sliderH);
   // Take the slider's range and map it to a value between 0 and 5
-    spin_sliderValue = map(spin_sliderX,spin_sliderStart,spin_sliderEnd-spin_sliderW,0,500);
+  spin_sliderValue = map(spin_sliderX,spin_sliderStart,spin_sliderEnd-spin_sliderW,0,500);
 	// Update the Slider Value as keys are pressed
-    if  (keyIsDown(RIGHT_ARROW)){
-        spin_sliderX+=5;};
-    if  (keyIsDown(LEFT_ARROW)){
-        spin_sliderX-=5;};
-    pop();
-    angle = radians(spin_sliderValue/fR);
+  if  (keyIsDown(RIGHT_ARROW)){
+      spin_sliderX+=5;};
+  if  (keyIsDown(LEFT_ARROW)){
+      spin_sliderX-=5;};
+  pop();
+  angle = radians(spin_sliderValue/fR);
 }
 
 //This function is the slider that controls the rate of shape decay with the up and down arrows
 function shrinkSlider() {
 	push();
-    rectMode(CORNER);
+  rectMode(CORNER);
 	stroke(255);
 	fill(175);
   // Keep rectangle within limits of slider
@@ -110,15 +104,15 @@ function shrinkSlider() {
   // Draw rectangle for slider
   rect(shrink_sliderX, shrink_sliderY, shrink_sliderW, shrink_sliderH);
   // Take the slider's range and map it to a value between 0 and 5
-    shrink_sliderValue = map(shrink_sliderY,shrink_sliderStart,shrink_sliderEnd-shrink_sliderH,0,1);
-    print(shrink_sliderValue);
+  shrink_sliderValue = map(shrink_sliderY,shrink_sliderStart,shrink_sliderEnd-shrink_sliderH,0,1);
+  print(shrink_sliderValue);
 	// Update the Slider Value as keys are pressed
-    if  (keyIsDown(DOWN_ARROW)){
-        shrink_sliderY+=5;};
-    if  (keyIsDown(UP_ARROW)){
-        shrink_sliderY-=5;};
-    pop();
-    decay = shrink_sliderValue;
+  if  (keyIsDown(DOWN_ARROW)){
+      shrink_sliderY+=5;};
+  if  (keyIsDown(UP_ARROW)){
+      shrink_sliderY-=5;};
+  pop();
+  decay = shrink_sliderValue;
 }
 
 // This function draws every square contained in the "squares" array
@@ -161,4 +155,3 @@ function mouseDragged(){
 	var h = t%360;
 	createSquare(mouseX, mouseY, theta, sqRadius, h);
 }
-
