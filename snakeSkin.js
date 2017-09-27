@@ -2,27 +2,30 @@ var t = 0;	 // time keeper
 var fR = 60; // frame Rate
 var directions; //text directions variables
 
-var squares, sqRadius; // square variables
-var sq1, sq2, sq3, sq4;// auxiliary squares
-var angle, decay;// environment variables
+var squares, sqRadius, sqBorder;  // square variables
+var sq1, sq2, sq3, sq4; // auxiliary squares
+var angle, decay; // environment variables
 
-var spin_sliderX, spin_sliderY, spin_sliderW, spin_sliderH, spin_sliderStart, spin_sliderEnd, shrink_sliderX, shrink_sliderY, shrink_sliderW, shrink_sliderH, shrink_sliderStart, shrink_sliderEnd;// slider variables
-var spin_sliderValue, shrink_sliderValue;       //variables for mapped value from sliders
-
+// slider variables
+var spin_sliderX, spin_sliderY, spin_sliderW, spin_sliderH, spin_sliderStart, spin_sliderEnd;
+var shrink_sliderX, shrink_sliderY, shrink_sliderW, shrink_sliderH, shrink_sliderStart, shrink_sliderEnd;
+var spin_sliderValue, shrink_sliderValue; //variables for mapped value from sliders
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
     frameRate(fR);
+  	colorMode(HSB, 360, 100, 100, 100);
+  
+    // variable initialization
+	  squares = []; // [x, y, rotation, radius, hue]
+	  sqRadius = 200;
+	  sqBorder = 8;
+    decay = 0.1;
 
     rectMode(CENTER);
     noFill();
-    strokeWeight(2);
-    stroke(255, 255, 255, 80);
-
-    // variable initialization
-    squares = []; // [x, y, rotation, radius]
-    sqRadius = 100;
-    decay = 0.1;
+    strokeWeight(sqBorder);
+    // stroke(255, 255, 255, 80);
     
     shrink_sliderX = windowWidth/30;
     shrink_sliderY = windowHeight/15;
@@ -40,14 +43,15 @@ function setup(){
     spin_sliderEnd = windowHeight/3;
     spin_sliderValue = 5;
 
-    sq1 = [100, 100, 0.2, sqRadius-30];
-    sq2 = [200, 100, 0.3, sqRadius-20];
-    sq3 = [300, 100, 0.4, sqRadius-10];
-    sq4 = [400, 100, 0.5, sqRadius];
     angle = radians(spin_sliderValue/fR);
-    instructions ="INSTRUCTIONS: click and drag the mouse to draw squares. Use the Up, Down, Left, and Right arrow keys to change the squares";
+    instructions = "INSTRUCTIONS: click and drag the mouse to draw squares. Use the Up, Down, Left, and Right arrow keys to change the squares";
 
-  squares = [sq1, sq2, sq3, sq4];
+
+  // sq1 = [100, 100, 0.2, sqRadius-30];
+  // sq2 = [200, 100, 0.3, sqRadius-20];
+  // sq3 = [300, 100, 0.4, sqRadius-10];
+  // sq4 = [400, 100, 0.5, sqRadius];
+  // squares = [sq1, sq2, sq3, sq4];
 }
 
 function draw(){
@@ -120,11 +124,13 @@ function shrinkSlider() {
 // This function draws every square contained in the "squares" array
 function drawSquares(){
 	for (var i = 0; i < squares.length; i++) {
-			push();
-			translate(squares[i][0], squares[i][1]);
-			rotate(squares[i][2]);
-			rect(0, 0, squares[i][3], squares[i][3]);
-			pop();
+		var col = color(squares[i][4], 100, 100, 60);
+		stroke(col);
+		push();
+		translate(squares[i][0], squares[i][1]);
+		rotate(squares[i][2]);
+		rect(0, 0, squares[i][3], squares[i][3]);
+		pop();
 	}
 }
 // This function shrinks the squares and removes them from the array
@@ -143,14 +149,16 @@ function spinSquares(){
 	}
 }
 // This function creates a square and adds it to the array
-function createSquare(xpos, ypos, rotation, rad) {
+function createSquare(xpos, ypos, rotation, rad, hue) {
 	// Create a new square
-	var newSquare = [xpos, ypos, rotation, rad];
+	var newSquare = [xpos, ypos, rotation, rad, hue];
 	// Add it to the array
 	squares.push(newSquare);
 }
 // This is the built in mousedrag function
 function mouseDragged(){
-	createSquare(mouseX, mouseY, 0, sqRadius);
+	var theta = radians(t);
+	var h = t%360;
+	createSquare(mouseX, mouseY, theta, sqRadius, h);
 }
 
